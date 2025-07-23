@@ -49,7 +49,7 @@ def webhook():
         return jsonify({'error': 'Invalid or missing token'}), 401
 
     if not data["ref"] in f"refs/heads/{CONFIG['default-branch'][org_repo_name]}":
-        return jsonify({'message': 'Not main, master or develop branch. Not archiving SBOM.'}), 200
+        return jsonify({'message': 'Push event not on default branch, not archiving SBOM.'}), 200
 
     url = f"https://api.github.com/repos/{org_repo_name}/dependency-graph/sbom"
     headers = {
