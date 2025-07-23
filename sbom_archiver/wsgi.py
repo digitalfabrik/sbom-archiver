@@ -8,7 +8,7 @@ from flask import Flask, request, jsonify
 
 from git import Repo
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 CONFIG = configparser.ConfigParser()
 CONFIG.read('/etc/sbom-archiver.ini')
@@ -22,7 +22,7 @@ try:
 except:
     sbom_repo = Repo.clone_from(SBOM_ARCHIVE_REPO_URL, SBOM_ARCHIVE_REPO_LOCAL_PATH)
 
-@app.route('/webhook', methods=['POST'])
+@application.route('/webhook', methods=['POST'])
 def webhook():
     data = request.json
 
@@ -37,7 +37,7 @@ def webhook():
     url = f"https://api.github.com/repos/{owner}/{repo}/dependency-graph/sbom"
     headers = {
         'Authorization': f'token {GITHUB_TOKEN}',
-        'Accept': 'application/vnd.github.hawkgirl-preview+json'
+        'Accept': 'application/json'
     }
 
     response = requests.get(url, headers=headers)
@@ -64,4 +64,4 @@ def webhook():
     return jsonify({'message': 'SBOM stored successfully'}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
