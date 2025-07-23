@@ -11,6 +11,7 @@ from git import Repo
 app = Flask(__name__)
 
 CONFIG = configparser.ConfigParser()
+CONFIG.read('/etc/sbom-archiver.ini')
 GITHUB_TOKEN = CONFIG["github"]["token"]
 
 SBOM_ARCHIVE_REPO_URL = CONFIG["archive"]["repo-url"]
