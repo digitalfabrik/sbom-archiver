@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import configparser
+import json
 import os
 
 import requests
@@ -55,7 +56,7 @@ def webhook():
     filepath = f"{SBOM_ARCHIVE_REPO_LOCAL_PATH}/{filename}"
 
     with open(filepath, 'w') as f:
-        f.write(str(sbom_data))
+        f.write(json.dumps(sbom_data, indent=2))
 
     sbom_repo.index.add([filepath])
     sbom_repo.index.commit(f"Add {repo_name} SBOM for {commit_hash}")
