@@ -4,6 +4,7 @@
 import configparser
 import json
 import os
+import time
 
 from hashlib import sha256
 from hmac import HMAC, compare_digest
@@ -45,6 +46,8 @@ def webhook():
     commit_hash = data['after']
     org_repo_name = f"{owner}/{repo}"
 
+
+    time.sleep(30)
     if not verify_signature(request, VALID_TOKENS[org_repo_name]):
         return jsonify({'error': 'Invalid or missing token'}), 401
 
